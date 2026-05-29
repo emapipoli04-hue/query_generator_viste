@@ -18,23 +18,23 @@ STREAMS = {
     ]
 }
 
-with st.sidebar:st.markdown("### 📋 Configurazione")
-    stream_selezionato = st.selectbox("Seleziona Stream",
+with st.sidebar:
+    st.markdown("### 📋 Configurazione")
+    stream_selezionato = st.selectbox(
+        "Seleziona Stream",
         list(STREAMS.keys()),
         help="Scegli lo stream da monitorare"
     )
     
     st.markdown("---")
-    st.markdown("
-### 📊 Informazioni")
-
-    st.info(f"""**Stream selezionato:** {stream_selezionato}
+    st.markdown("### 📊 Informazioni")
+    st.info(f"""
+    **Stream selezionato:** {stream_selezionato}
     
     **Viste:** {len(STREAMS[stream_selezionato])}
     """)
 
-st.markdown("
-### 📁 Viste da monitorare")
+st.markdown("### 📁 Viste da monitorare")
 
 viste = STREAMS[stream_selezionato]
 
@@ -46,33 +46,24 @@ for i, vista in enumerate(viste):
 st.markdown("---")
 
 if st.button("🔧 Genera Query COUNT(*)", use_container_width=True, type="primary"):
-    st.markdown("
-### 📝 Query SQL - Copia e incolla in SSMS")
-
+    st.markdown("### 📝 Query SQL - Copia e incolla in SSMS")
     
-    query = "-- Query COUNT(*) per monitorare le viste
-"
-    query += f"-- Stream: {stream_selezionato}
-"
-    query += "-- Esegui questa query in SSMS
-
-"
+    query = "-- Query COUNT(*) per monitorare le viste\n"
+    query += f"-- Stream: {stream_selezionato}\n"
+    query += "-- Esegui questa query in SSMS\n\n"
     
     query_parts = []
     for vista in viste:
         query_parts.append(f"SELECT '{vista}' AS Vista, COUNT(*) AS NumRighe FROM {vista}")
     
-    query += " UNION ALL
-".join(query_parts) + ";"
+    query += " UNION ALL\n".join(query_parts) + ";"
     
     st.code(query, language="sql")
     
     st.write("**👇 Copia la query sopra e incollala in SSMS**")
     
     st.markdown("---")
-    st.markdown("
-### 📊 Statistiche")
-
+    st.markdown("### 📊 Statistiche")
     col1, col2, col3 = st.columns(3)
     col1.metric("Stream", stream_selezionato)
     col2.metric("Viste", len(viste))
