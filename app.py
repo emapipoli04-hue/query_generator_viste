@@ -20,8 +20,7 @@ STREAMS = {
 
 with st.sidebar:st.markdown("### 📋 Configurazione")
 
-    stream_selezionato = st.selectbox(
-        "Seleziona Stream",
+    stream_selezionato = st.selectbox("Seleziona Stream",
         list(STREAMS.keys()),
         help="Scegli lo stream da monitorare"
     )
@@ -30,8 +29,7 @@ with st.sidebar:st.markdown("### 📋 Configurazione")
     st.markdown("
 ### 📊 Informazioni")
 
-    st.info(f"""
-    **Stream selezionato:** {stream_selezionato}
+    st.info(f"""**Stream selezionato:** {stream_selezionato}
     
     **Viste:** {len(STREAMS[stream_selezionato])}
     """)
