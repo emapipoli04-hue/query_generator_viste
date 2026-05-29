@@ -1,3 +1,10 @@
+
+app_corretto.py
+
+Latest (v2)
+
+👁 Preview Mode
+Click to Edit
 import streamlit as st
 
 st.set_page_config(page_title="Query Generator - Viste", page_icon="🔍", layout="wide")
@@ -15,6 +22,9 @@ STREAMS = {
         "L2.VDD_DM_METALLI_PESANTI_TIMESTAMP",
         "L2.VDD_FT_METALLI_PESANTI",
         "L2.VDD_FT_METALLI_PESANTI_ERRORS_MONITORING"
+    ],
+    "Transparency1": [
+        "L2.VDD_TRANSPARENCY_CUSTOMER_PROVA_FULL"
     ]
 }
 
