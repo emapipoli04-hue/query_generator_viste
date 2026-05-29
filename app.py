@@ -1,4 +1,3 @@
-
 import streamlit as st
 
 st.set_page_config(page_title="Query Generator - Viste", page_icon="🔍", layout="wide")
@@ -22,56 +21,55 @@ STREAMS = {
     ]
 }
 
-with st.sidebar:
-    st.markdown("### 📋 Configurazione")
-    stream_selezionato = st.selectbox(
-        "Seleziona Stream",
-        list(STREAMS.keys()),
-        help="Scegli lo stream da monitorare"
-    )
-    
-    st.markdown("---")
-    st.markdown("### 📊 Informazioni")
-    st.info(f"""
-    **Stream selezionato:** {stream_selezionato}
-    
-    **Viste:** {len(STREAMS[stream_selezionato])}
-    """)
+st.markdown("### 🔘 Seleziona Stream")
 
-st.markdown("### 📁 Viste da monitorare")
+# Crea bottoni per ogni stream
+cols = st.columns(len(STREAMS))
+stream_selezionato = None
 
-viste = STREAMS[stream_selezionato]
-
-cols = st.columns(2)
-for i, vista in enumerate(viste):
-    with cols[i % 2]:
-        st.code(vista, language="sql")
+for i, (stream_name, viste_list) in enumerate(STREAMS.items()):
+    with cols[i]:
+        if st.button(f"📊 {stream_name}", use_container_width=True, key=f"btn_{stream_name}"):
+            stream_selezionato = stream_name
 
 st.markdown("---")
 
-if st.button("🔧 Genera Query COUNT(*)", use_container_width=True, type="primary"):
-    st.markdown("### 📝 Query SQL - Copia e incolla in SSMS")
+# Se un bottone è stato cliccato, mostra le viste e genera la query
+if stream_selezionato:
+    st.markdown(f"### 📁 Viste - {stream_selezionato}")
     
-    query = "-- Query COUNT(*) per monitorare le viste\n"
-    query += f"-- Stream: {stream_selezionato}\n"
-    query += "-- Esegui questa query in SSMS\n\n"
+    viste = STREAMS[stream_selezionato]
     
-    query_parts = []
-    for vista in viste:
-        query_parts.append(f"SELECT '{vista}' AS Vista, COUNT(*) AS NumRighe FROM {vista}")
-    
-    query += " UNION ALL\n".join(query_parts) + ";"
-    
-    st.code(query, language="sql")
-    
-    st.write("**👇 Copia la query sopra e incollala in SSMS**")
+    cols = st.columns(2)
+    for i, vista in enumerate(viste):
+        with cols[i % 2]:
+            st.code(vista, language="sql")
     
     st.markdown("---")
-    st.markdown("### 📊 Statistiche")
-    col1, col2, col3 = st.columns(3)
-    col1.metric("Stream", stream_selezionato)
-    col2.metric("Viste", len(viste))
-    col3.metric("Colonne Output", 2)
+    
+    if st.button("🔧 Genera Query COUNT(*)", use_container_width=True, type="primary"):
+        st.markdown("### 📝 Query SQL - Copia e incolla in SSMS")
+        
+        query = "-- Query COUNT(*) per monitorare le viste\n"
+        query += f"-- Stream: {stream_selezionato}\n"
+        query += "-- Esegui questa query in SSMS\n\n"
+        
+        query_parts = []
+        for vista in viste:
+            query_parts.append(f"SELECT '{vista}' AS Vista, COUNT(*) AS NumRighe FROM {vista}")
+        
+        query += " UNION ALL\n".join(query_parts) + ";"
+        
+        st.code(query, language="sql")
+        
+        st.write("**👇 Copia la query sopra e incollala in SSMS**")
+        
+        st.markdown("---")
+        st.markdown("### 📊 Statistiche")
+        col1, col2, col3 = st.columns(3)
+        col1.metric("Stream", stream_selezionato)
+        col2.metric("Viste", len(viste))
+        col3.metric("Colonne Output", 2)
 
 st.markdown("---")
 st.markdown("<div style='text-align: center; color: #666; font-size: 0.9rem; padding: 1rem 0;'><p>🔍 Query Generator v1.0</p></div>", unsafe_allow_html=True)
