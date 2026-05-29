@@ -19,7 +19,6 @@ STREAMS = {
 }
 
 with st.sidebar:st.markdown("### 📋 Configurazione")
-
     stream_selezionato = st.selectbox("Seleziona Stream",
         list(STREAMS.keys()),
         help="Scegli lo stream da monitorare"
