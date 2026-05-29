@@ -1,3 +1,7 @@
+
+
+👁 Preview Mode
+Click to Edit
 import streamlit as st
 
 st.set_page_config(page_title="Query Generator - Viste", page_icon="🔍", layout="wide")
@@ -22,7 +26,7 @@ STREAMS = {
     "Service Rate": [
         "L2.VDD_DM_CALENDAR",
         "L2.VDD_DM_SERVICE_RATE_BUDGET",
-        "L2.VDD_DM_SERVICE_RATE_CUSTOMER",
+        "L2.VDD_SERVICE_RATE_BUDGET",
         "L2.VDD_DM_SERVICE_RATE_MATERIAL",
         "L2.VDD_FT_SERVICE_RATE_FATTI_OTIF"
     ]
@@ -67,7 +71,7 @@ if st.session_state.stream_selezionato:
     for vista in viste:
         query_parts.append(f"SELECT '{vista}' AS Vista, COUNT(*) AS NumRighe FROM {vista}")
     
-    query += " UNION ALL\n".join(query_parts) + ";"
+    query += " UNION ALL\n".join(query_parts) + "\nORDER BY Vista ASC;"
     
     st.code(query, language="sql")
     
