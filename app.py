@@ -18,6 +18,13 @@ STREAMS = {
     ],
     "Transparency1": [
         "L2.VDD_TRANSPARENCY_CUSTOMER_PROVA_FULL"
+    ],
+    "Service Rate": [
+        "L2.VDD_DM_CALENDAR",
+        "L2.VDD_DM_SERVICE_RATE_BUDGET",
+        "L2.VDD_SERVICE_RATE_BUDGET",
+        "L2.VDD_DM_SERVICE_RATE_MATERIAL",
+        "L2.VDD_FT_SERVICE_RATE_FATTI_OTIF"
     ]
 }
 
