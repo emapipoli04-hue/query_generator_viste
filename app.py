@@ -1,7 +1,4 @@
 
-
-👁 Preview Mode
-Click to Edit
 import streamlit as st
 
 st.set_page_config(page_title="Query Generator - Viste", page_icon="🔍", layout="wide")
