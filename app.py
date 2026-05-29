@@ -18,8 +18,7 @@ STREAMS = {
     ]
 }
 
-with st.sidebar:
-    st.markdown("
+with st.sidebar:st.markdown("
 ### 📋 Configurazione")
 
     stream_selezionato = st.selectbox(
