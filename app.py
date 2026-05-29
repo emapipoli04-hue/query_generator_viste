@@ -37,7 +37,7 @@ for i, stream_name in enumerate(STREAMS.keys()):
 
 st.markdown("---")
 
-# Se un bottone è stato cliccato, mostra le viste e genera la query
+# Se un bottone è stato cliccato, mostra le viste e genera la query automaticamente
 if st.session_state.stream_selezionato:
     stream_selezionato = st.session_state.stream_selezionato
     st.markdown(f"### 📁 Viste - {stream_selezionato}")
@@ -50,30 +50,28 @@ if st.session_state.stream_selezionato:
             st.code(vista, language="sql")
     
     st.markdown("---")
+    st.markdown("### 📝 Query SQL - Copia e incolla in SSMS")
     
-    if st.button("🔧 Genera Query COUNT(*)", use_container_width=True, type="primary", key="btn_genera"):
-        st.markdown("### 📝 Query SQL - Copia e incolla in SSMS")
-        
-        query = "-- Query COUNT(*) per monitorare le viste\n"
-        query += f"-- Stream: {stream_selezionato}\n"
-        query += "-- Esegui questa query in SSMS\n\n"
-        
-        query_parts = []
-        for vista in viste:
-            query_parts.append(f"SELECT '{vista}' AS Vista, COUNT(*) AS NumRighe FROM {vista}")
-        
-        query += " UNION ALL\n".join(query_parts) + ";"
-        
-        st.code(query, language="sql")
-        
-        st.write("**👇 Copia la query sopra e incollala in SSMS**")
-        
-        st.markdown("---")
-        st.markdown("### 📊 Statistiche")
-        col1, col2, col3 = st.columns(3)
-        col1.metric("Stream", stream_selezionato)
-        col2.metric("Viste", len(viste))
-        col3.metric("Colonne Output", 2)
+    query = "-- Query COUNT(*) per monitorare le viste\n"
+    query += f"-- Stream: {stream_selezionato}\n"
+    query += "-- Esegui questa query in SSMS\n\n"
+    
+    query_parts = []
+    for vista in viste:
+        query_parts.append(f"SELECT '{vista}' AS Vista, COUNT(*) AS NumRighe FROM {vista}")
+    
+    query += " UNION ALL\n".join(query_parts) + ";"
+    
+    st.code(query, language="sql")
+    
+    st.write("**👇 Copia la query sopra e incollala in SSMS**")
+    
+    st.markdown("---")
+    st.markdown("### 📊 Statistiche")
+    col1, col2, col3 = st.columns(3)
+    col1.metric("Stream", stream_selezionato)
+    col2.metric("Viste", len(viste))
+    col3.metric("Colonne Output", 2)
 
 st.markdown("---")
 st.markdown("<div style='text-align: center; color: #666; font-size: 0.9rem; padding: 1rem 0;'><p>🔍 Query Generator v1.0</p></div>", unsafe_allow_html=True)
