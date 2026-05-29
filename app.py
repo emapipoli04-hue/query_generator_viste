@@ -21,21 +21,25 @@ STREAMS = {
     ]
 }
 
+# Inizializza session state
+if "stream_selezionato" not in st.session_state:
+    st.session_state.stream_selezionato = None
+
 st.markdown("### 🔘 Seleziona Stream")
 
 # Crea bottoni per ogni stream
 cols = st.columns(len(STREAMS))
-stream_selezionato = None
 
-for i, (stream_name, viste_list) in enumerate(STREAMS.items()):
+for i, stream_name in enumerate(STREAMS.keys()):
     with cols[i]:
         if st.button(f"📊 {stream_name}", use_container_width=True, key=f"btn_{stream_name}"):
-            stream_selezionato = stream_name
+            st.session_state.stream_selezionato = stream_name
 
 st.markdown("---")
 
 # Se un bottone è stato cliccato, mostra le viste e genera la query
-if stream_selezionato:
+if st.session_state.stream_selezionato:
+    stream_selezionato = st.session_state.stream_selezionato
     st.markdown(f"### 📁 Viste - {stream_selezionato}")
     
     viste = STREAMS[stream_selezionato]
@@ -47,7 +51,7 @@ if stream_selezionato:
     
     st.markdown("---")
     
-    if st.button("🔧 Genera Query COUNT(*)", use_container_width=True, type="primary"):
+    if st.button("🔧 Genera Query COUNT(*)", use_container_width=True, type="primary", key="btn_genera"):
         st.markdown("### 📝 Query SQL - Copia e incolla in SSMS")
         
         query = "-- Query COUNT(*) per monitorare le viste\n"
